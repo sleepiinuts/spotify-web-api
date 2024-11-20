@@ -14,7 +14,7 @@
   </button>
 </div>
 
-<div class="search-result">
+<div class="search-result" #searchResult>
   @for(item of items;track item.id){
   <mat-card class="music-card" appearance="outlined">
     <img mat-card-image src="{{ item.album.images[0].url }}" />

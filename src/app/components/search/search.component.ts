@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -47,7 +47,10 @@ export class SearchComponent {
     txtInput: new FormControl('', Validators.required),
   });
 
+  @ViewChild('searchResult') container!: ElementRef;
+
   onSearch() {
+    this.container.nativeElement.scrollLeft = 0;
     this.store.dispatch(
       SearchActions.searchsTrack({ q: this.searchForm.value.txtInput! })
     );
