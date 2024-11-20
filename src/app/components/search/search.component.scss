@@ -12,5 +12,12 @@
 
 .search-result {
   margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+
+  .music-card{
+    width: 25%;
+  }
 }
 
