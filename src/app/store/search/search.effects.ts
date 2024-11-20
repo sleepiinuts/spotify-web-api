@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
-import { catchError, from, of, switchMap, tap } from 'rxjs';
+import { catchError, debounceTime, from, of, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { SearchActions } from './search.actions';
 
@@ -17,7 +17,8 @@ export class SearchEffects {
         let url = `${environment.spotifyUrl}/search?q=${props.q}&type=track`;
 
         return from(this.sdk.search(props.q, ['track'])).pipe(
-          tap((resp) => console.log(resp)),
+          // tap((resp) => console.log(resp)),
+          debounceTime(500),
           switchMap((resp) =>
             of(SearchActions.searchsTrackSuccess({ resp: resp.tracks }))
           ),
