@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldModule,
@@ -7,13 +15,23 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/all.selectors';
+import { Track } from '@spotify/web-api-ts-sdk';
+import { ListArtistsPipe } from '../../pipe/list-artists.pipe';
+import { AppState, selectSearchTrack } from '../../store/all.selectors';
 import { SearchActions } from '../../store/search/search.actions';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule],
+  imports: [
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    ListArtistsPipe,
+    ReactiveFormsModule,
+  ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   providers: [
@@ -24,7 +42,21 @@ import { SearchActions } from '../../store/search/search.actions';
   ],
 })
 export class SearchComponent {
+  items!: Track[];
+  searchForm = new FormGroup({
+    txtInput: new FormControl('', Validators.required),
+  });
+
+  onSearch() {
+    this.store.dispatch(
+      SearchActions.searchsTrack({ q: this.searchForm.value.txtInput! })
+    );
+  }
+
   constructor(private store: Store<AppState>) {
-    this.store.dispatch(SearchActions.searchsTrack({ q: 'let it go' }));
+    this.store
+      .select(selectSearchTrack)
+      .pipe(takeUntilDestroyed())
+      .subscribe((res) => (this.items = res.resp.items));
   }
 }
