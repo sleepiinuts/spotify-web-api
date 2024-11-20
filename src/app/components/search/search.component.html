@@ -1,12 +1,30 @@
 <div class="search-bar">
-  <mat-form-field>
+  <mat-form-field [formGroup]="searchForm">
     <mat-label>Search Music</mat-label>
-    <input matInput placeholder="apt." />
+    <input matInput placeholder="apt." formControlName="txtInput" />
     <mat-icon matSuffix>library_music</mat-icon>
   </mat-form-field>
-  <button mat-fab aria-label="search for music">
+  <button
+    mat-fab
+    aria-label="search for music"
+    [disabled]="searchForm.invalid"
+    (click)="onSearch()"
+  >
     <mat-icon>search</mat-icon>
   </button>
 </div>
 
-<div class="search-result"></div>
+<div class="search-result">
+  @for(item of items;track item.id){
+  <mat-card class="music-card" appearance="outlined">
+    <img mat-card-image src="{{ item.album.images[0].url }}" />
+    <mat-card-content>
+      <p>
+        {{ item.artists | listArtists }}
+      </p>
+      <a href="#">{{ item.name }}</a>
+      <hr />
+      <a href="#">{{ item.album.name }}</a>
+    </mat-card-content> </mat-card
+  >}
+</div>
