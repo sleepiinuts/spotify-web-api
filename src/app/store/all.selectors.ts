@@ -5,6 +5,7 @@ import {
   searchFeatureKey,
   State as searchState,
 } from './search/search.reducer';
+import { trackFeatureKey, State as trackState } from './track/track.reducer';
 
 export interface AppState {
   searchTrack: SearchTrackResp;
@@ -13,3 +14,5 @@ export interface AppState {
 
 export const selectSearchTrack =
   createFeatureSelector<searchState>(searchFeatureKey);
+
+export const selectTrack = createFeatureSelector<trackState>(trackFeatureKey);
