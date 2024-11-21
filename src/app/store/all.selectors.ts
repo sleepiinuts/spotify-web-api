@@ -1,4 +1,5 @@
 import { createFeatureSelector } from '@ngrx/store';
+import { Track } from '@spotify/web-api-ts-sdk';
 import { SearchTrackResp } from '../models/search-track.model';
 import {
   searchFeatureKey,
@@ -7,6 +8,7 @@ import {
 
 export interface AppState {
   searchTrack: SearchTrackResp;
+  track: Track;
 }
 
 export const selectSearchTrack =
