@@ -13,14 +13,12 @@ export class TrackEffects {
 
   loadTrack$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(TrackActions.loadTracks),
-      tap(() => this.store.dispatch(TrackActions.loadTracksLoading())),
+      ofType(TrackActions.load),
+      tap(() => this.store.dispatch(TrackActions.loading())),
       switchMap((props) => {
         return from(this.sdk.tracks.get(props.id)).pipe(
-          switchMap((track) =>
-            of(TrackActions.loadTracksSuccess({ track: track }))
-          ),
-          catchError((err) => of(TrackActions.loadTracksFailure(err)))
+          switchMap((track) => of(TrackActions.loadSuccess({ track: track }))),
+          catchError((err) => of(TrackActions.loadFailure(err)))
         );
       })
     )

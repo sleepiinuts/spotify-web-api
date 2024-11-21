@@ -16,12 +16,12 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(TrackActions.loadTracksSuccess, (state, props) => ({
+  on(TrackActions.loadSuccess, (state, props) => ({
     ...state,
     track: props.track,
     isloading: false,
   })),
-  on(TrackActions.loadTracksLoading, (state) => ({
+  on(TrackActions.loading, (state) => ({
     ...state,
     isloading: true,
   }))

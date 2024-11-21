@@ -31,7 +31,7 @@ export class TrackComponent implements OnInit {
         let id = params['id'];
         if (!id) return;
 
-        this.store.dispatch(TrackActions.loadTracks({ id: params['id'] }));
+        this.store.dispatch(TrackActions.load({ id: params['id'] }));
       });
 
     // TODO: managing loading state
