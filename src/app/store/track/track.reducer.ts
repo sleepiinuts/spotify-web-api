@@ -6,10 +6,12 @@ export const trackFeatureKey = 'track';
 
 export interface State {
   track: Track;
+  isloading: boolean;
 }
 
 export const initialState: State = {
   track: <Track>{},
+  isloading: true,
 };
 
 export const reducer = createReducer(
@@ -17,5 +19,10 @@ export const reducer = createReducer(
   on(TrackActions.loadTracksSuccess, (state, props) => ({
     ...state,
     track: props.track,
+    isloading: false,
+  })),
+  on(TrackActions.loadTracksLoading, (state) => ({
+    ...state,
+    isloading: true,
   }))
 );
