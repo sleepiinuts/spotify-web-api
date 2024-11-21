@@ -22,7 +22,12 @@
       <p>
         {{ item.artists | listArtists }}
       </p>
-      <a routerLink="/tracks" routerLinkActive="active">{{ item.name }}</a>
+      <a
+        routerLink="/tracks"
+        [queryParams]="{ id: item.id }"
+        routerLinkActive="active"
+        >{{ item.name }}</a
+      >
       <hr />
       <a routerLink="/albums" routerLinkActive="active">{{
         item.album.name
