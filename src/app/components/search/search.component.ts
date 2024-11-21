@@ -1,4 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -14,8 +20,10 @@ import {
 } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Track } from '@spotify/web-api-ts-sdk';
+import { WINDOW } from '../../config.injection-token';
 import { ListArtistsPipe } from '../../pipe/list-artists.pipe';
 import { AppState, selectSearchTrack } from '../../store/all.selectors';
 import { SearchActions } from '../../store/search/search.actions';
@@ -31,6 +39,8 @@ import { SearchActions } from '../../store/search/search.actions';
     MatCardModule,
     ListArtistsPipe,
     ReactiveFormsModule,
+    RouterLink,
+    RouterLinkActive,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -41,7 +51,7 @@ import { SearchActions } from '../../store/search/search.actions';
     },
   ],
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   items!: Track[];
   searchForm = new FormGroup({
     txtInput: new FormControl('', Validators.required),
@@ -56,7 +66,19 @@ export class SearchComponent {
     );
   }
 
-  constructor(private store: Store<AppState>) {
+  ngOnInit(): void {
+    // fromEvent(this.window, 'popstate')
+    //   .pipe(tap(() => console.log('hellooooo')))
+    //   .subscribe(() => {
+    //     history.pushState(null, '');
+    //     console.log('back button is clicked');
+    //   });
+  }
+
+  constructor(
+    private store: Store<AppState>,
+    @Inject(WINDOW) private window: Window
+  ) {
     this.store
       .select(selectSearchTrack)
       .pipe(takeUntilDestroyed())

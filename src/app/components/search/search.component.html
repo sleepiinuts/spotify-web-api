@@ -22,9 +22,11 @@
       <p>
         {{ item.artists | listArtists }}
       </p>
-      <a href="#">{{ item.name }}</a>
+      <a routerLink="/tracks" routerLinkActive="active">{{ item.name }}</a>
       <hr />
-      <a href="#">{{ item.album.name }}</a>
+      <a routerLink="/albums" routerLinkActive="active">{{
+        item.album.name
+      }}</a>
     </mat-card-content> </mat-card
   >}
 </div>
