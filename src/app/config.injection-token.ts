@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 
 export const WINDOW = new InjectionToken<Window>('Global Injection window', {
   factory: () => {
@@ -9,3 +10,7 @@ export const WINDOW = new InjectionToken<Window>('Global Injection window', {
     }
   },
 });
+
+export const SPOTIFY_SDK = new InjectionToken<SpotifyApi>(
+  'Global Injection for spotify sdk'
+);
