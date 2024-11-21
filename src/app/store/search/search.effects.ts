@@ -1,13 +1,14 @@
-import { inject, Injectable } from '@angular/core';
+import { Inject, inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import { catchError, debounceTime, from, of, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { SPOTIFY_SDK } from '../../config.injection-token';
 import { SearchActions } from './search.actions';
 
 @Injectable()
 export class SearchEffects {
-  private sdk: SpotifyApi;
+  // private sdk: SpotifyApi;
   private actions$ = inject(Actions);
 
   searchTrack$ = createEffect(() =>
@@ -30,10 +31,10 @@ export class SearchEffects {
     )
   );
 
-  constructor() {
-    this.sdk = SpotifyApi.withClientCredentials(
-      environment.clientId,
-      environment.clientSecret
-    );
+  constructor(@Inject(SPOTIFY_SDK) private sdk: SpotifyApi) {
+    // this.sdk = SpotifyApi.withClientCredentials(
+    //   environment.clientId,
+    //   environment.clientSecret
+    // );
   }
 }
