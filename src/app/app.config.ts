@@ -19,6 +19,11 @@ import {
   searchFeatureKey,
   reducer as searchReducer,
 } from './store/search/search.reducer';
+import { TrackEffects } from './store/track/track.effects';
+import {
+  trackFeatureKey,
+  reducer as trackReducer,
+} from './store/track/track.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,7 +33,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideStore(),
     provideState({ name: searchFeatureKey, reducer: searchReducer }),
-    provideEffects(SearchEffects),
+    provideState({ name: trackFeatureKey, reducer: trackReducer }),
+    provideEffects(SearchEffects, TrackEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     {
       provide: SPOTIFY_SDK,
