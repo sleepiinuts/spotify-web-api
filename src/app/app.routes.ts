@@ -1,4 +1,10 @@
 import { Routes } from '@angular/router';
+import { AlbumComponent } from './components/album/album.component';
 import { SearchComponent } from './components/search/search.component';
+import { TrackComponent } from './components/track/track.component';
 
-export const routes: Routes = [{ path: 'search', component: SearchComponent }];
+export const routes: Routes = [
+  { path: 'search', component: SearchComponent },
+  { path: 'tracks', component: TrackComponent },
+  { path: 'albums', component: AlbumComponent },
+];
