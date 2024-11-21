@@ -10,7 +10,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { SpotifyApi } from '@spotify/web-api-ts-sdk';
+import { environment } from '../environments/environment';
 import { routes } from './app.routes';
+import { SPOTIFY_SDK } from './config.injection-token';
 import { SearchEffects } from './store/search/search.effects';
 import {
   searchFeatureKey,
@@ -27,5 +30,13 @@ export const appConfig: ApplicationConfig = {
     provideState({ name: searchFeatureKey, reducer: searchReducer }),
     provideEffects(SearchEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    {
+      provide: SPOTIFY_SDK,
+      useFactory: () =>
+        SpotifyApi.withClientCredentials(
+          environment.clientId,
+          environment.clientSecret
+        ),
+    },
   ],
 };
