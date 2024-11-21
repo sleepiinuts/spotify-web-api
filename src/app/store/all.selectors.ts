@@ -1,4 +1,4 @@
-import { createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Track } from '@spotify/web-api-ts-sdk';
 import { SearchTrackResp } from '../models/search-track.model';
 import {
@@ -16,3 +16,7 @@ export const selectSearchTrack =
   createFeatureSelector<searchState>(searchFeatureKey);
 
 export const selectTrack = createFeatureSelector<trackState>(trackFeatureKey);
+export const selectTrackLoading = createSelector(
+  selectTrack,
+  (state) => state.isloading
+);
