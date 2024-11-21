@@ -7,6 +7,6 @@ import { SimplifiedArtist } from '@spotify/web-api-ts-sdk';
 })
 export class ListArtistsPipe implements PipeTransform {
   transform(artists: SimplifiedArtist[]): string {
-    return artists.map((a) => a.name).join(',');
+    return artists.map((a) => a.name).join(', ');
   }
 }
