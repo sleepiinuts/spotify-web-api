@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './track.component.html',
-  styleUrl: './track.component.scss'
+  styleUrl: './track.component.scss',
 })
 export class TrackComponent {
-
+  // track = input.required<Track>();
 }
