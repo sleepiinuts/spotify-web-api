@@ -26,6 +26,7 @@ import { SimplifiedArtist, Track } from '@spotify/web-api-ts-sdk';
 import { WINDOW } from '../../config.injection-token';
 import { ListArtistsPipe } from '../../pipe/list-artists.pipe';
 import { AppState, selectSearchTrack } from '../../store/all.selectors';
+import { ArtistActions } from '../../store/artist/artist.actions';
 import { SearchActions } from '../../store/search/search.actions';
 
 @Component({
@@ -66,8 +67,12 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  extractId(artists: SimplifiedArtist[]): string {
-    return artists.map((a) => a.id).join(',');
+  extractId(artists: SimplifiedArtist[]): string[] {
+    return artists.map((a) => a.id);
+  }
+
+  setArtistId(ids: string[]) {
+    this.store.dispatch(ArtistActions.ids({ ids: ids }));
   }
 
   ngOnInit(): void {
