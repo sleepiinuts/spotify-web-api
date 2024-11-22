@@ -22,8 +22,8 @@
       <p>
         <a
           routerLink="/artists"
-          [queryParams]="{ id: extractId(item.artists) }"
           routerLinkActive="active"
+          (click)="setArtistId(extractId(item.artists))"
           >{{ item.artists | listArtists }}</a
         >
       </p>
