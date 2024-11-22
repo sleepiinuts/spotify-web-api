@@ -14,6 +14,11 @@ import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 import { SPOTIFY_SDK } from './config.injection-token';
+import { ArtistEffects } from './store/artist/artist.effects';
+import {
+  artistFeatureKey,
+  reducer as artistReducer,
+} from './store/artist/artist.reducer';
 import { SearchEffects } from './store/search/search.effects';
 import {
   searchFeatureKey,
@@ -34,7 +39,8 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideState({ name: searchFeatureKey, reducer: searchReducer }),
     provideState({ name: trackFeatureKey, reducer: trackReducer }),
-    provideEffects(SearchEffects, TrackEffects),
+    provideState({ name: artistFeatureKey, reducer: artistReducer }),
+    provideEffects(SearchEffects, TrackEffects, ArtistEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     {
       provide: SPOTIFY_SDK,
