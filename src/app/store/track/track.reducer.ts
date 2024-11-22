@@ -11,7 +11,7 @@ export interface State {
 
 export const initialState: State = {
   track: <Track>{},
-  isloading: true,
+  isloading: false,
 };
 
 export const reducer = createReducer(
