@@ -20,14 +20,21 @@
     <img mat-card-image src="{{ item.album.images[0].url }}" />
     <mat-card-content>
       <p>
-        {{ item.artists | listArtists }}
+        <a
+          routerLink="/artists"
+          [queryParams]="{ id: extractId(item.artists) }"
+          routerLinkActive="active"
+          >{{ item.artists | listArtists }}</a
+        >
       </p>
-      <a
-        routerLink="/tracks"
-        [queryParams]="{ id: item.id }"
-        routerLinkActive="active"
-        >{{ item.name }}</a
-      >
+      <p>
+        <a
+          routerLink="/tracks"
+          [queryParams]="{ id: item.id }"
+          routerLinkActive="active"
+          >{{ item.name }}</a
+        >
+      </p>
       <hr />
       <a routerLink="/albums" routerLinkActive="active">{{
         item.album.name
