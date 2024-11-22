@@ -14,6 +14,10 @@ export interface AppState {
 
 export const selectSearchTrack =
   createFeatureSelector<searchState>(searchFeatureKey);
+export const selectSearchArtists = (index: number) =>
+  createSelector(selectSearchTrack, (state) => {
+    state.resp.items[index].artists;
+  });
 
 export const selectTrack = createFeatureSelector<trackState>(trackFeatureKey);
 export const selectTrackLoading = createSelector(
