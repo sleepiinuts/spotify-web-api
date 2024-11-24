@@ -36,3 +36,7 @@ export const selectArtistIds = createSelector(
   selectArtist,
   (state) => state.ids
 );
+export const selectArtistInfo = createSelector(
+  selectArtist,
+  (state) => state.artist
+);
