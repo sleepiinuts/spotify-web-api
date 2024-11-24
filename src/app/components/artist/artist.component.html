@@ -1,1 +1,15 @@
 <p>artist works!</p>
+<div class="artist-carousel">
+  @if(artists.length > 0){
+  <img src="{{ artists[idx].images[0].url }}" />
+
+  @if(idx != 0 && artists.length > 1){
+  <button mat-icon-button class="left" (click)="prev()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  } @if(artists.length > 1 && idx < (artists.length - 1)){
+  <button mat-icon-button class="right" (click)="next()">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+  } }
+</div>
