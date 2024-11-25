@@ -24,6 +24,7 @@
     "@angular/router": "^18.2.0",
     "@angular/ssr": "^18.2.6",
     "@ngrx/effects": "^18.1.1",
+    "@ngrx/operators": "^18.1.1",
     "@ngrx/store": "^18.1.1",
     "@ngrx/store-devtools": "^18.1.1",
     "@spotify/web-api-ts-sdk": "^1.2.0",
@@ -31,8 +32,7 @@
     "js-sha256": "^0.11.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.10",
-    "@ngrx/operators": "^18.1.1"
+    "zone.js": "~0.14.10"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.6",
@@ -59,6 +59,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "nx": "20.1.0",
+    "prettier": "^3.3.3",
     "typescript": "~5.5.2"
   }
 }
