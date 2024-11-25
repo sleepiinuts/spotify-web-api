@@ -1,15 +1,24 @@
-<p>artist works!</p>
 <div class="artist-carousel">
-  @if(artists.length > 0){
-  <img src="{{ artists[idx].images[0].url }}" />
-
-  @if(idx != 0 && artists.length > 1){
-  <button mat-icon-button class="left" (click)="prev()">
-    <mat-icon>keyboard_arrow_left</mat-icon>
-  </button>
-  } @if(artists.length > 1 && idx < (artists.length - 1)){
-  <button mat-icon-button class="right" (click)="next()">
-    <mat-icon>keyboard_arrow_right</mat-icon>
-  </button>
-  } }
+  @if (artists.length > 0) {
+    @for (artist of artists; track artist.id; let id = $index) {
+      @if (id === idx) {
+        <div class="slide">
+          <img [src]="artist.images[0].url" @carouselAnimation />
+          @if (idx != 0 && artists.length > 1) {
+            <button mat-icon-button class="left" (click)="prev()">
+              <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>
+          }
+          @if (artists.length > 1 && idx < artists.length - 1) {
+            <button mat-icon-button class="right" (click)="next()">
+              <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+          }
+        </div>
+        <p>Artist Name: {{ artist.name }}</p>
+        <p>Genre: {{ artist.genres.join(", ") }}</p>
+        <p>Popularity: {{ artist.popularity }}/100</p>
+      }
+    }
+  }
 </div>
