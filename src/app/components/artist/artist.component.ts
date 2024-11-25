@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,6 +14,18 @@ import { ArtistActions } from '../../store/artist/artist.actions';
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './artist.component.html',
   styleUrl: './artist.component.scss',
+  animations: [
+    trigger('carouselAnimation', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms ease-in-out', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ opacity: 1 }),
+        animate('500ms ease-in-out', style({ opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class ArtistComponent implements OnInit {
   public idx = 0;
@@ -23,14 +36,14 @@ export class ArtistComponent implements OnInit {
       this.idx -= 1;
     }
 
-    console.log(`pos: ${this.idx}, artist.length: ${this.artists.length}`);
+    // console.log(`pos: ${this.idx}, artist.length: ${this.artists.length}`);
   }
 
   next() {
     if (this.idx < this.artists.length - 1) {
       this.idx += 1;
     }
-    console.log(`pos: ${this.idx}, artist.length: ${this.artists.length}`);
+    // console.log(`pos: ${this.idx}, artist.length: ${this.artists.length}`);
   }
 
   ngOnInit(): void {
@@ -41,5 +54,8 @@ export class ArtistComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((artists) => (this.artists = artists));
   }
-  constructor(private store: Store<AppState>, private destroyRef: DestroyRef) {}
+  constructor(
+    private store: Store<AppState>,
+    private destroyRef: DestroyRef,
+  ) {}
 }
