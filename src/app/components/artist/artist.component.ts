@@ -3,15 +3,20 @@ import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Store } from '@ngrx/store';
 import { Artist } from '@spotify/web-api-ts-sdk';
-import { AppState, selectArtistInfo } from '../../store/all.selectors';
+import {
+  AppState,
+  selectArtistInfo,
+  selectArtistLoading,
+} from '../../store/all.selectors';
 import { ArtistActions } from '../../store/artist/artist.actions';
 
 @Component({
   selector: 'app-artist',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './artist.component.html',
   styleUrl: './artist.component.scss',
   animations: [
@@ -28,8 +33,9 @@ import { ArtistActions } from '../../store/artist/artist.actions';
   ],
 })
 export class ArtistComponent implements OnInit {
-  public idx = 0;
-  public artists!: Artist[];
+  idx = 0;
+  artists!: Artist[];
+  isLoading = false;
 
   prev() {
     if (this.idx > 0) {
@@ -53,6 +59,11 @@ export class ArtistComponent implements OnInit {
       .select(selectArtistInfo)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((artists) => (this.artists = artists));
+
+    this.store
+      .select(selectArtistLoading)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isLoading) => (this.isLoading = isLoading));
   }
   constructor(
     private store: Store<AppState>,
