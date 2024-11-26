@@ -29,5 +29,6 @@ export const reducer = createReducer(
   on(ArtistActions.loadSuccess, (state, props) => ({
     ...state,
     artist: props.artists,
-  }))
+    isLoading: false,
+  })),
 );

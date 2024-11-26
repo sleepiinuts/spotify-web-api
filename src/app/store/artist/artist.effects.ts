@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
-import { catchError, from, of, switchMap } from 'rxjs';
+import { catchError, from, of, switchMap, tap } from 'rxjs';
 import { SPOTIFY_SDK } from '../../config.injection-token';
 import { AppState, selectArtistIds } from '../all.selectors';
 import { ArtistActions } from './artist.actions';
@@ -15,16 +15,17 @@ export class ArtistEffects {
   loadArtists$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ArtistActions.load),
+      tap(() => this.store.dispatch(ArtistActions.loading())),
       concatLatestFrom(() => this.store.select(selectArtistIds)),
       switchMap(([_, ids]) =>
         from(this.sdk.artists.get(ids)).pipe(
           switchMap((artists) =>
-            of(ArtistActions.loadSuccess({ artists: artists }))
+            of(ArtistActions.loadSuccess({ artists: artists })),
           ),
-          catchError((err) => of(ArtistActions.loadFailure({ error: err })))
-        )
-      )
-    )
+          catchError((err) => of(ArtistActions.loadFailure({ error: err }))),
+        ),
+      ),
+    ),
   );
 
   constructor(private store: Store<AppState>) {}

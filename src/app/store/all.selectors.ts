@@ -27,16 +27,20 @@ export const selectSearchArtists = (index: number) =>
 export const selectTrack = createFeatureSelector<trackState>(trackFeatureKey);
 export const selectTrackLoading = createSelector(
   selectTrack,
-  (state) => state.isloading
+  (state) => state.isloading,
 );
 
 export const selectArtist =
   createFeatureSelector<artistState>(artistFeatureKey);
 export const selectArtistIds = createSelector(
   selectArtist,
-  (state) => state.ids
+  (state) => state.ids,
 );
 export const selectArtistInfo = createSelector(
   selectArtist,
-  (state) => state.artist
+  (state) => state.artist,
+);
+export const selectArtistLoading = createSelector(
+  selectArtist,
+  (state) => state.isLoading,
 );
