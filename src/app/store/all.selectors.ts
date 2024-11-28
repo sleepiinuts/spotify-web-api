@@ -23,6 +23,10 @@ export const selectSearchArtists = (index: number) =>
   createSelector(selectSearchTrack, (state) => {
     state.resp.items[index].artists;
   });
+export const selectSearchLoading = createSelector(
+  selectSearchTrack,
+  (state) => state.isLoading,
+);
 
 export const selectTrack = createFeatureSelector<trackState>(trackFeatureKey);
 export const selectTrackLoading = createSelector(
