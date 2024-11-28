@@ -1,1 +1,16 @@
-<p>placeholder works!</p>
+<p>
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, corrupti,
+  possimus repudiandae molestiae commodi ab officiis excepturi ipsa, vel
+  reprehenderit facere voluptatem maxime eius odio ipsum illum provident vero
+  nostrum.
+</p>
+
+<div class="skeleton">
+  @for (item of items; track $index) {
+    <div
+      class="item"
+      [ngStyle]="theme"
+      [ngClass]="{ pulse: animation == 'pulse' }"
+    ></div>
+  }
+</div>

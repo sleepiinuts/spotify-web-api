@@ -1,0 +1,27 @@
+.skeleton {
+  width: 20%;
+  height: 20%;
+  overflow-y: scroll;
+  .item {
+    background-color: bisque;
+    width: 30px;
+    height: 30px;
+
+    &.pulse {
+      animation: pulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation-delay: 0.5s;
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
