@@ -1,5 +1,7 @@
+import { DOCUMENT } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   ElementRef,
   Inject,
   OnInit,
@@ -20,14 +22,20 @@ import {
 } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SimplifiedArtist, Track } from '@spotify/web-api-ts-sdk';
-import { WINDOW } from '../../config.injection-token';
+import { ImagePlaceHolderDirective } from '../../directives/image.directive';
 import { ListArtistsPipe } from '../../pipe/list-artists.pipe';
-import { AppState, selectSearchTrack } from '../../store/all.selectors';
+import {
+  AppState,
+  selectSearchLoading,
+  selectSearchTrack,
+} from '../../store/all.selectors';
 import { ArtistActions } from '../../store/artist/artist.actions';
 import { SearchActions } from '../../store/search/search.actions';
+import { PlaceholderComponent } from '../shared/placeholder/placeholder.component';
 
 @Component({
   selector: 'app-search',
@@ -38,10 +46,13 @@ import { SearchActions } from '../../store/search/search.actions';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    ListArtistsPipe,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
     RouterLink,
     RouterLinkActive,
+    ListArtistsPipe,
+    ImagePlaceHolderDirective,
+    PlaceholderComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -54,6 +65,9 @@ import { SearchActions } from '../../store/search/search.actions';
 })
 export class SearchComponent implements OnInit {
   items!: Track[];
+  isLoading = false;
+  _completedImages: number[][] = [];
+
   searchForm = new FormGroup({
     txtInput: new FormControl('', Validators.required),
   });
@@ -63,7 +77,7 @@ export class SearchComponent implements OnInit {
   onSearch() {
     this.container.nativeElement.scrollLeft = 0;
     this.store.dispatch(
-      SearchActions.searchsTrack({ q: this.searchForm.value.txtInput! })
+      SearchActions.searchsTrack({ q: this.searchForm.value.txtInput! }),
     );
   }
 
@@ -82,15 +96,40 @@ export class SearchComponent implements OnInit {
     //     history.pushState(null, '');
     //     console.log('back button is clicked');
     //   });
+
+    this.store
+      .select(selectSearchLoading)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
+      });
+  }
+  notify(idx: number) {
+    setTimeout(() => {
+      console.log('done loading image...');
+      this._completedImages[idx] = [0];
+
+      this.document
+        .getElementById(`img${this.items[idx].id}`)
+        ?.classList.remove('hide');
+    }, 3000);
   }
 
   constructor(
     private store: Store<AppState>,
-    @Inject(WINDOW) private window: Window
+    private destroyRef: DestroyRef,
+    @Inject(DOCUMENT) private document: Document,
   ) {
     this.store
       .select(selectSearchTrack)
       .pipe(takeUntilDestroyed())
-      .subscribe((res) => (this.items = res.resp.items));
+      .subscribe((res) => {
+        this.items = res.resp.items;
+
+        // create array of empty array to represent which image(id) is loading/finish
+        Array.from({ length: this.items?.length }).forEach(() => {
+          this._completedImages.push([]);
+        });
+      });
   }
 }
