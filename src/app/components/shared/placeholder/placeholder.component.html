@@ -1,16 +1,19 @@
-<p>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, corrupti,
-  possimus repudiandae molestiae commodi ab officiis excepturi ipsa, vel
-  reprehenderit facere voluptatem maxime eius odio ipsum illum provident vero
-  nostrum.
-</p>
-
-<div class="skeleton">
-  @for (item of items; track $index) {
+<div class="skeleton" id="{{ 'skeleton-' + id }}">
+  @for (loading of loadings; track $index; let idx = $index) {
     <div
       class="item"
       [ngStyle]="theme"
       [ngClass]="{ pulse: animation == 'pulse' }"
+      [id]="getId(idx)"
     ></div>
+
+    <!-- <div>
+      <img
+        src="https://i.scdn.co/image/ab67616d0000b273ba60245b7725fdc3719027c0"
+        class="item"
+        id="{{ idx }}"
+        (load)="toggleIsLoading(idx)"
+      />
+    </div> -->
   }
 </div>
